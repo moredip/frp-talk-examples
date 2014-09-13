@@ -1,0 +1,29 @@
+body > h1 {
+  border-bottom: 1px solid gray;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 40pt;
+  margin-top: 10px;
+  color: #555;
+}
+body > article {
+  margin: 50px 0;
+}
+
+section.slider {
+  @include display(flex); 
+  @include align-items(center);
+  width: 100%;
+
+  input[type="range"] {
+    width: 100%;
+    margin: 0em 0.5em;
+  }
+
+  span.label {
+    font-size: 30pt;
+    margin: 0 0.5em;
+    min-width: 2.5em;
+  }
+
+}

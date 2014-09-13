@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     coffee = require('gulp-coffee'),
     concat = require('gulp-concat'),
+    sass = require('gulp-sass'),
     del = require('del');
 
 gulp.task('clean', function (cb) {
@@ -29,17 +30,18 @@ gulp.task('copy', function () {
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('css', function () {
-  gulp.src('css/*.css')
-    .pipe(concat('app.css'))
+gulp.task('sass', function() {
+  gulp.src('sass/app.scss')
+    .pipe( sass({
+      includePaths: require('node-bourbon').includePaths
+    }))
     .pipe(gulp.dest('public'));
-
 });
 
 gulp.task('default', ['coffee','copy']);
 
 gulp.task('watch', ['default'], function(){
   gulp.watch(['index.html'], ['copy']);
-  gulp.watch(['css/*.css'], ['css']);
+  gulp.watch(['sass/*.scss'], ['sass']);
   gulp.watch(['coffee/*.coffee'], ['coffee']);
 });
