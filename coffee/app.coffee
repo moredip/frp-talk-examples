@@ -3,7 +3,13 @@ $ ->
     .asEventStream('input')
     .map( (e)-> $(e.target).val() )
 
-  stream.visualize("slider values")
+  stream.visualize("raw slider values")
 
-  stream.assign($(".slider-to-label .label"), "text")
+  parsedStream = stream.map( (x)-> parseFloat(x) )
+  parsedStream.visualize("parsed slider values")
+
+  roundedStreams = parsedStream.map( (x)-> x.toFixed(1) )
+  roundedStreams.visualize("rounded slider values")
+
+  roundedStreams.assign($(".slider-to-label .label"), "text")
 
