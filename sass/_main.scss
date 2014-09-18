@@ -10,6 +10,10 @@ body > article {
   margin: 50px 0;
 }
 
+article.streams {
+  background-color: $streamyBlue;
+}
+
 section.slider {
   @include display(flex); 
   @include align-items(center);
@@ -25,5 +29,4 @@ section.slider {
     margin: 0 0.5em;
     min-width: 2.5em;
   }
-
 }

@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    plumber = require('gulp-plumber'),
     coffee = require('gulp-coffee'),
     concat = require('gulp-concat'),
     sass = require('gulp-sass'),
@@ -10,6 +11,7 @@ gulp.task('clean', function (cb) {
 
 gulp.task('coffee', function () {
     gulp.src('coffee/*.coffee')
+    .pipe(plumber())
     //.pipe(sourcemaps.init())
     .pipe(coffee())
     //.pipe(sourcemaps.write())
@@ -32,13 +34,14 @@ gulp.task('copy', function () {
 
 gulp.task('sass', function() {
   gulp.src('sass/app.scss')
+    .pipe(plumber())
     .pipe( sass({
       includePaths: require('node-bourbon').includePaths
     }))
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('default', ['coffee','copy']);
+gulp.task('default', ['coffee','sass','copy']);
 
 gulp.task('watch', ['default'], function(){
   gulp.watch(['index.html'], ['copy']);
