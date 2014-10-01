@@ -36,7 +36,7 @@ gulp.task('copy', function () {
 });
 
 gulp.task('sass', function() {
-  gulp.src('sass/app.scss')
+  gulp.src('sass/*.scss')
     .pipe(plumber())
     .pipe( sass({
       includePaths: require('node-bourbon').includePaths.concat( require('node-neat').includePaths )

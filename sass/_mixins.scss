@@ -1,0 +1,5 @@
+@mixin flexy-fill {
+  @include display(flex); 
+  @include align-items(center);
+  width: 100%;
+}

@@ -30,9 +30,7 @@ body > article {
 }
 
 section.slider {
-  @include display(flex); 
-  @include align-items(center);
-  width: 100%;
+  @include flexy-fill;
 
   input[type="range"] {
     width: 100%;
