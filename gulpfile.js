@@ -10,18 +10,21 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('coffee', function () {
-    gulp.src('coffee/*.coffee')
+  var javascripts = gulp.src('coffee/*.coffee')
     .pipe(plumber())
-    //.pipe(sourcemaps.init())
-    .pipe(coffee())
-    //.pipe(sourcemaps.write())
-    .pipe(concat('app.js'))
+    .pipe(coffee());
+
+  javascripts
+    .pipe(gulp.dest('public'));
+  
+  javascripts.pipe(concat('app.js'))
     .pipe(gulp.dest('public'));
 });
 
 gulp.task('copy', function () {
   var inputs = [
     'index.html',
+    'html/**/*.html',
     'node_modules/bacon/lib/bacon.js',
     'node_modules/d3/d3.js',
     'node_modules/jquery/dist/jquery.js',
@@ -44,7 +47,7 @@ gulp.task('sass', function() {
 gulp.task('default', ['coffee','sass','copy']);
 
 gulp.task('watch', ['default'], function(){
-  gulp.watch(['index.html'], ['copy']);
+  gulp.watch(['**/*.html'], ['copy']);
   gulp.watch(['sass/*.scss'], ['sass']);
   gulp.watch(['coffee/*.coffee'], ['coffee']);
 });

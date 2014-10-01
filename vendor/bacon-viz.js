@@ -115,7 +115,7 @@
 
   BaconViz.createStreamVisualization = function(streamName) {
     var $newStream, $streamsContainer, $svg, chart;
-    $streamsContainer = $('article.streams');
+    $streamsContainer = $('.streams');
     $newStream = $("<section class=\"marble-stream\">\n  <h2/>\n  <svg class=\"marbles\"/>\n</section>");
     $newStream.find('h2').text(streamName);
     $newStream.appendTo($streamsContainer);
