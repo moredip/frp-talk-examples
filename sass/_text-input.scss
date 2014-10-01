@@ -1,13 +1,16 @@
 article.text-input {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  input {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  input, .label {
     display: flex;
     width: 100%;
   }
   .label {
     margin-top: 3rem;
     padding-left: 5px;
+    padding-top: 0.2em;
+    /*background-color: #ddd;*/
+    border-bottom: 3px dashed #222;
   }
   input, .label { 
     font-size: 26pt;

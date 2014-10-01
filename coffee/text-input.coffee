@@ -14,9 +14,9 @@ $ ->
   inputStream = $("input").asEventStream("input",eventToVal)
   inputStream
     .log()
-    .visualize('raw input')
+    #.visualize('raw input')
     .map( (s) -> s.toUpperCase() )
-    .visualize('up cased')
+    #.visualize('up cased')
 
   length = inputStream
     .map( validate )
