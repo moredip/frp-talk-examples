@@ -1,16 +1,31 @@
-body > h1 {
-  border-bottom: 1px solid gray;
-  padding-bottom: 10px;
-  font-weight: bold;
-  font-size: 40pt;
-  margin-top: 10px;
-  color: #555;
+$left-gutter: 20px;
+
+html, body {
+  padding: 0;
+  margin: 0;
 }
+header {
+  background-color: #111;
+  margin-bottom: 4rem;
+  h1 {
+    margin: 0;
+    padding: 0.2em $left-gutter;
+    color: #eee;
+    font-size: 28pt;
+  }
+}
+
 body > article {
   margin: 50px 0;
 }
 
-article.streams {
+.stream-visualizations {
+  h1 {
+    padding: 0.5em 0 0.5em $left-gutter;
+    background: darken($streamyBlue, 35%);
+    color: $streamyBlue;
+  }
+  margin-top: 4rem;
   background-color: $streamyBlue;
 }
 
