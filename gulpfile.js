@@ -39,7 +39,7 @@ gulp.task('sass', function() {
   gulp.src('sass/app.scss')
     .pipe(plumber())
     .pipe( sass({
-      includePaths: require('node-bourbon').includePaths
+      includePaths: require('node-bourbon').includePaths.concat( require('node-neat').includePaths )
     }))
     .pipe(gulp.dest('public'));
 });
