@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     coffee = require('gulp-coffee'),
     concat = require('gulp-concat'),
     sass = require('gulp-sass'),
+    wrap = require('gulp-wrap'),
     del = require('del');
 
 gulp.task('clean', function (cb) {
@@ -21,9 +22,14 @@ gulp.task('coffee', function () {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('js', function () {
+  var javascripts = gulp.src('js/*.js')
+    .pipe(wrap('!function(){\n<%= contents %>\n}();'))
+    .pipe(gulp.dest('public'));
+});
+
 gulp.task('copy', function () {
   var inputs = [
-    'index.html',
     'html/**/*.html',
     'node_modules/bacon/lib/bacon.js',
     'node_modules/d3/d3.js',
@@ -47,7 +53,8 @@ gulp.task('sass', function() {
 gulp.task('default', ['coffee','sass','copy']);
 
 gulp.task('watch', ['default'], function(){
-  gulp.watch(['**/*.html'], ['copy']);
+  gulp.watch(['html/*.html'], ['copy']);
   gulp.watch(['sass/*.scss'], ['sass']);
   gulp.watch(['coffee/*.coffee'], ['coffee']);
+  gulp.watch(['js/*.js'], ['js']);
 });
