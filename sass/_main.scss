@@ -5,6 +5,10 @@ html, body {
   margin: 0;
 }
 header {
+  a {
+    text-decoration: inherit;
+    color: #444;
+  }
   background-color: #111;
   margin-bottom: 2rem;
   h1 {
