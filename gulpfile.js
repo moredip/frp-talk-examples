@@ -50,7 +50,7 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('default', ['coffee','sass','copy']);
+gulp.task('default', ['coffee','js','sass','copy']);
 
 gulp.task('watch', ['default'], function(){
   gulp.watch(['html/*.html'], ['copy']);

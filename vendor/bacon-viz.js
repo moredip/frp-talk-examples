@@ -1,22 +1,37 @@
 (function() {
-  var BaconViz, MARBLE_RADIUS, prepRootNode, refreshMarbles;
+  var BaconViz, MARBLE_RADIUS, createCurrValueMarbleWithin, prepRootNode, refreshCurrValueMarble, refreshMarbles;
 
   BaconViz = this.BaconViz != null ? this.BaconViz : this.BaconViz = {};
 
   MARBLE_RADIUS = 30;
 
-  prepRootNode = function(rootSvgNode) {
-    var container, height, marbleGroup, root, width;
+  createCurrValueMarbleWithin = function(container) {
+    var marble;
+    marble = container.append("svg:g").attr("class", "curr-value marble");
+    marble.style("visibility", "hidden");
+    marble.append("circle").attr("r", MARBLE_RADIUS);
+    marble.append("text").attr("alignment-baseline", "middle").attr("text-anchor", "middle");
+    return marble;
+  };
+
+  prepRootNode = function(root) {
+    var container, currValueMarble, height, marbleGroup, width;
     height = (MARBLE_RADIUS * 2) + 14;
-    width = 960;
-    root = d3.select(rootSvgNode).attr("width", width).attr("height", height);
+    width = root.attr("width");
+    root.attr("height", height);
     container = root.append("g");
     container.append('line').attr("x1", 0).attr("y1", height / 2).attr("x2", width - MARBLE_RADIUS).attr("y2", height / 2).attr("class", "marble-line");
+    currValueMarble = createCurrValueMarbleWithin(container);
+    currValueMarble.attr("transform", "translate(" + (width - MARBLE_RADIUS - 5) + "," + (height / 2) + ")");
     marbleGroup = container.append("g");
     return {
-      root: root,
-      marbleGroup: marbleGroup
+      marbleGroup: marbleGroup,
+      currValueMarble: currValueMarble
     };
+  };
+
+  refreshCurrValueMarble = function(currValueMarble, latestEvent) {
+    return currValueMarble.style("visibility", "visible").select("text").text(latestEvent.displayValue);
   };
 
   refreshMarbles = function(_arg) {
@@ -45,17 +60,20 @@
     });
   };
 
-  BaconViz.createMarbleChartWithin = function(rootSvgNode) {
-    var addNewMarble, eventData, height, marbleGroup, now, root, tick, timeRange, updateInterval, width, x, _ref;
+  BaconViz.createMarbleChartWithin = function(rootSvgNode, containerWidth) {
+    var addNewMarble, currValueMarble, eventData, height, marbleGroup, now, root, tick, timeRange, updateInterval, width, x, _ref;
     updateInterval = 50;
     timeRange = 1000 * 10;
     now = new Date();
-    _ref = prepRootNode(rootSvgNode), marbleGroup = _ref.marbleGroup, root = _ref.root;
+    root = d3.select(rootSvgNode);
+    root.attr("width", containerWidth - (MARBLE_RADIUS * 2));
+    _ref = prepRootNode(root), marbleGroup = _ref.marbleGroup, currValueMarble = _ref.currValueMarble;
     width = root.attr("width");
     height = root.attr("height");
     eventData = [];
     x = d3.time.scale().domain([now - timeRange, now]).range([0, width - MARBLE_RADIUS]);
     tick = function() {
+      var latestEvent;
       now = new Date();
       x.domain([now - timeRange, now]);
       refreshMarbles({
@@ -64,6 +82,10 @@
         x: x,
         height: height
       });
+      if (eventData.length) {
+        latestEvent = eventData[eventData.length - 1];
+        refreshCurrValueMarble(currValueMarble, latestEvent);
+      }
       return marbleGroup.attr("transform", null).transition().duration(updateInterval).ease("linear").attr("transform", "translate(" + x(now - timeRange - updateInterval) + ")").each("end", tick);
     };
     tick();
@@ -120,7 +142,7 @@
     $newStream.find('h2').text(streamName);
     $newStream.appendTo($streamsContainer);
     $svg = $newStream.find("svg");
-    chart = BaconViz.createMarbleChartWithin($svg[0]);
+    chart = BaconViz.createMarbleChartWithin($svg[0], $newStream.width());
     return {
       chart: chart
     };

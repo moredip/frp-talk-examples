@@ -1,37 +1,45 @@
-.streams {
+html {
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-
-  svg {
-    font-family: sans-serif;
-  }
-
-  svg.marbles .marble-line {
-    stroke: #aaa;
-    stroke-width: 1px;
-  }
-   
-  svg.marbles .marble {
-    stroke-width: 4px;
-  }
-
-  svg.marbles .marble text {
-    fill: #eee;
-  }
-
-  article.streams {
-    background: #eee;
-    padding: 20px 0;
-  }
-
-  .marble-stream {
-    padding: 20px;
-    display: inline-block;
-  }
-
-  .marble-stream h2 {
-    margin: 0 0 -15px 0;
-    color: #444;
-    font-style: italic;
-  }
 }
 
+svg {
+  font-family: sans-serif;
+}
+
+svg.marbles .marble-line {
+  stroke: #aaa;
+  stroke-width: 1px;
+}
+ 
+svg.marbles .marble {
+  stroke-width: 4px;
+}
+
+svg.marbles .marble text {
+  fill: #222;
+  stroke: none;
+}
+
+svg.marbles .curr-value.marble {
+  stroke: #aaa;
+  fill: #eee;
+}
+
+
+
+article.streams {
+  background: #eee;
+  padding: 20px 0;
+}
+
+.marble-stream {
+  padding: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+.marble-stream h2 {
+  margin: 0 0 -15px 0;
+  color: #444;
+  font-style: italic;
+}
