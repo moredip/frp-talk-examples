@@ -1,9 +1,26 @@
-section.sum{
-  div {
+article.summing-sliders {
+
+  section.sum{
     float: right;
     font-size: 36pt;
+    text-align: right;
+
+    .label {
+      margin-right: 0.5em;
+      min-width: 1em;
+    }
+  }
+
+  .notation {
+    font-size: 36pt;
     margin: 0 0.5em;
-    min-width: 2.5em;
+    width: 1em;
     text-align: right;
   }
+
+  .slider.b .label {
+    margin-left: 0;
+    min-width: 1em;
+  }
+
 }

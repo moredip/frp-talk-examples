@@ -29,5 +29,5 @@ $( function(){
   var combinedStream = Bacon.combineWith( summer, sliderAValues, sliderBValues )
   combinedStream
     .visualize( 'both sliders' )
-    .assign( $('span.sum'), 'text' );
+    .assign( $('.sum .label'), 'text' );
 });
