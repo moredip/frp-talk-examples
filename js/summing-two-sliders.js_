@@ -1,0 +1,36 @@
+var inputEventToVal = function(e){ 
+  return $(e.target).val();
+};
+
+var summer = function(a,b){
+  return a+b;
+}
+
+var sliderToFloat = function($slider){
+  return $slider
+    .asEventStream("input",inputEventToVal)
+    .map(parseFloat);
+}
+
+$( function(){
+  var $sliderA = $(".slider.a input"),
+      $labelA = $(".slider.a .label"),
+      $sliderB = $(".slider.b input"),
+      $labelB = $(".slider.b .label"),
+      $summedLabel = $('.sum .label');
+  
+  var streamA = sliderToFloat($sliderA);
+  var streamB = sliderToFloat($sliderB);
+
+  streamA.visualize('stream a');
+  streamB.visualize('stream b');
+
+
+  streamA.assign($labelA,"text");
+  streamB.assign($labelB,"text");
+
+  var combined = Bacon.combineWith( summer, streamA, streamB );
+  combined.visualize('summed');
+
+  combined.assign($summedLabel, "text");
+});

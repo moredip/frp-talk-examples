@@ -1,0 +1,29 @@
+var inputEventToVal = function(e){ 
+  return $(e.target).val();
+};
+
+$( function(){
+  var $slider = $('.slider input'),
+      $label = $('.slider .label');
+
+  var stream = $slider.asEventStream("input", inputEventToVal);
+  stream.log().visualize();
+
+  var parsed = stream.map( function(x){
+    return parseFloat(x);
+  });
+  parsed.visualize();
+
+  var percent = parsed.map( function(x){
+    return Math.round(x*100);
+  });
+  percent.visualize("percent");
+
+  var formatted = percent.map( function(x){
+    return ""+x+"%";
+  });
+
+  formatted.assign( $label, "text");
+
+
+});
