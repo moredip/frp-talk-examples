@@ -1,0 +1,36 @@
+%button {
+  @extend %appearance-none;
+
+  -webkit-font-smoothing: antialiased;
+  border-radius: 5px;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.75em 1em;
+  text-decoration: none;
+
+  &:hover {
+    color: white;
+  }
+
+  background-color: rgba(0.5,0.5,0.5,0.2);
+  border: 2px solid black;
+}
+
+
+button#send-color {
+  @extend %button;
+
+  font-size: 60pt;
+  display: block;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  margin: 2em auto 1em auto;
+}
+
+button#change-color {
+  @extend %button;
+  font-size: 30pt;
+  display: block;
+  margin: 0 auto;
+}

@@ -1,30 +1,30 @@
-var initPubnub = function(){
-  PUBNUB_SUB_KEY='sub-c-22bc549a-56c8-11e4-a7f8-02ee2ddab7fe';
-  PUBNUB_PUB_KEY='pub-c-edbabeb0-ab69-4626-81f8-19b94766b1a9';
-  return PUBNUB.init({
-    publish_key: PUBNUB_PUB_KEY,
-    subscribe_key: PUBNUB_SUB_KEY
+pubnubClient = window.initPubnub();
+
+var pickRandomColor = function(){
+  return tinycolor({
+    h: Math.random() * 360,
+    s: 0.6,
+    l: 0.6
   });
-}
-
-pubnubClient = initPubnub();
-
-var streamFromPubnub = function(channelName){
-  stream = Bacon.fromBinder( function(streamSink){
-    pubnubClient.subscribe({
-      channel: channelName,
-      message: streamSink
-    });
-
-    return function(){ 
-      pubnubClient.unsubscribe({channel:channelName}); 
-    };
-  });
-
-  return stream;
 };
 
 $( function(){
-  var stream = streamFromPubnub('bacon');
-  stream.visualize('pub stream');
+  var colors = $('#change-color')
+    .asEventStream('click', pickRandomColor)
+    .toProperty( pickRandomColor() );
+
+  colors.assign( $("body"), "css", "background-color" )
+
+  
+  var sendClicks = $('#send-color').asEventStream('click');
+  colors.sampledBy(sendClicks)
+    .map( function(color){ return color.toString("rgb"); } )
+    .log()
+    .map( function(c){
+      return { 
+        channel: PUBNUB_CHANNEL,
+        message: c
+      };
+    })
+    .assign( pubnubClient, "publish" );
 });
