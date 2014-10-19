@@ -9,13 +9,12 @@ var pickRandomColor = function(){
 };
 
 var publishStreamToPubnub = function(stream,channelName){
-  stream.map( function(value){
-    return { 
+  stream.onValue( function(value){
+    pubnubClient.publish({
       channel: channelName,
       message: value 
-    };
-  })
-  .assign( pubnubClient, "publish" );
+    });
+   });
 }
 
 $( function(){
@@ -29,7 +28,7 @@ $( function(){
   randomColors.assign( $("body"), "css", "background-color" )
 
   var colorMessages = randomColors
-    .sampledBy(sendClicks)
+    .sampledBy(sendColorClicks)
     .map( function(color){ return color.toString("rgb"); } )
     .log();
 

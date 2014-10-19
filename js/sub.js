@@ -24,9 +24,9 @@ var pickRandomColor = function(){
 };
 
 $( function(){
-  var colors = Bacon.interval(800)
-    .map( pickRandomColor )
-    .map( ".toString", "rgb" );
-  //var colors = streamFromPubnub(PUBNUB_CHANNEL);
+  //var colors = Bacon.interval(800)
+    //.map( pickRandomColor )
+    //.map( ".toString", "rgb" );
+  var colors = streamFromPubnub(PUBNUB_CHANNEL);
   colors.visualize('received colors');
 });
