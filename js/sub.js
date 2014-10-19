@@ -15,7 +15,18 @@ var streamFromPubnub = function(channelName){
   return stream;
 };
 
+var pickRandomColor = function(){
+  return tinycolor({
+    h: Math.random() * 360,
+    s: 0.6,
+    l: 0.6
+  });
+};
+
 $( function(){
-  var stream = streamFromPubnub(PUBNUB_CHANNEL);
-  stream.visualize('pub stream');
+  var colors = Bacon.interval(800)
+    .map( pickRandomColor )
+    .map( ".toString", "rgb" );
+  //var colors = streamFromPubnub(PUBNUB_CHANNEL);
+  colors.visualize('received colors');
 });

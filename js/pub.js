@@ -8,6 +8,16 @@ var pickRandomColor = function(){
   });
 };
 
+var publishStreamToPubnub = function(stream,channelName){
+  stream.map( function(value){
+    return { 
+      channel: channelName,
+      message: value 
+    };
+  })
+  .assign( pubnubClient, "publish" );
+}
+
 $( function(){
   var colors = $('#change-color')
     .asEventStream('click', pickRandomColor)
@@ -19,12 +29,7 @@ $( function(){
   var sendClicks = $('#send-color').asEventStream('click');
   colors.sampledBy(sendClicks)
     .map( function(color){ return color.toString("rgb"); } )
-    .log()
-    .map( function(c){
-      return { 
-        channel: PUBNUB_CHANNEL,
-        message: c
-      };
-    })
-    .assign( pubnubClient, "publish" );
+    .log();
+
+  publishStreamToPubnub(colors,PUBNUB_CHANNEL);
 });

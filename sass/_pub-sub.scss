@@ -2,7 +2,7 @@
   @extend %appearance-none;
 
   -webkit-font-smoothing: antialiased;
-  border-radius: 5px;
+  border-radius: 0;
   color: white;
   display: inline-block;
   font-weight: bold;
@@ -22,15 +22,16 @@
 button#send-color {
   @extend %button;
 
-  font-size: 60pt;
+  font-size: 30pt;
   display: block;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
   margin: 2em auto 1em auto;
 }
 
 button#change-color {
   @extend %button;
-  font-size: 30pt;
+  font-size: 18pt;
+  /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
   display: block;
   margin: 0 auto;
 }
