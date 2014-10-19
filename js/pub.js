@@ -19,17 +19,19 @@ var publishStreamToPubnub = function(stream,channelName){
 }
 
 $( function(){
-  var colors = $('#change-color')
-    .asEventStream('click', pickRandomColor)
+  var changeColorClicks = $("#change-color").asEventStream('click'),
+      sendColorClicks = $("#send-color").asEventStream('click');
+
+  var randomColors = changeColorClicks
+    .map( pickRandomColor )
     .toProperty( pickRandomColor() );
 
-  colors.assign( $("body"), "css", "background-color" )
+  randomColors.assign( $("body"), "css", "background-color" )
 
-  
-  var sendClicks = $('#send-color').asEventStream('click');
-  colors.sampledBy(sendClicks)
+  var colorMessages = randomColors
+    .sampledBy(sendClicks)
     .map( function(color){ return color.toString("rgb"); } )
     .log();
 
-  publishStreamToPubnub(colors,PUBNUB_CHANNEL);
+  publishStreamToPubnub(colorMessages,PUBNUB_CHANNEL);
 });
