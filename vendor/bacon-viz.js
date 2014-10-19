@@ -1,9 +1,25 @@
 (function() {
-  var BaconViz, MARBLE_RADIUS, createCurrValueMarbleWithin, prepRootNode, refreshCurrValueMarble, refreshMarbles;
+  var BaconViz, MARBLE_RADIUS, RGB_REGEX, TIME_RANGE_MS, colorForData, colorScale, createCurrValueMarbleWithin, inspect, isColorString, prepRootNode, refreshCurrValueMarble, refreshMarbles, trimEventData;
 
   BaconViz = this.BaconViz != null ? this.BaconViz : this.BaconViz = {};
 
   MARBLE_RADIUS = 30;
+
+  TIME_RANGE_MS = 10 * 1000;
+
+  RGB_REGEX = /^rgb\([\.\d]+,\s?[\.\d]+,\s?[\.\d]+\)$/;
+
+  isColorString = function(str) {
+    return !!RGB_REGEX.exec(str);
+  };
+
+  inspect = function(val) {
+    try {
+      return JSON.stringify(val);
+    } catch (_error) {
+      return null;
+    }
+  };
 
   createCurrValueMarbleWithin = function(container) {
     var marble;
@@ -31,14 +47,19 @@
   };
 
   refreshCurrValueMarble = function(currValueMarble, latestEvent) {
-    return currValueMarble.style("visibility", "visible").select("text").text(latestEvent.displayValue);
+    return currValueMarble.style("visibility", "visible").select("text").text(latestEvent.displayText);
+  };
+
+  colorScale = d3.scale.category10();
+
+  colorForData = function(d, i) {
+    return d3.rgb(d.displayColor ? d.displayColor : colorScale(i));
   };
 
   refreshMarbles = function(_arg) {
-    var colorScale, eventData, fadeScale, height, marbleGroup, marbles, newMarble, x, yCenter;
+    var eventData, fadeScale, height, marbleGroup, marbles, newMarble, x, yCenter;
     marbleGroup = _arg.marbleGroup, eventData = _arg.eventData, x = _arg.x, height = _arg.height;
     fadeScale = x.copy().range([0, 1]);
-    colorScale = d3.scale.category10();
     yCenter = height / 2;
     marbles = marbleGroup.selectAll(".marble").data(eventData);
     newMarble = marbles.enter().append("svg:g").attr("class", "marble");
@@ -50,20 +71,32 @@
     }).attr("opacity", function(d) {
       return fadeScale(d.timestamp);
     });
-    marbles.select("circle").style("fill", function(d, i) {
-      return colorScale(i);
-    }).style("stroke", function(d, i) {
-      return d3.rgb(colorScale(i)).darker();
+    marbles.select("circle").style("fill", colorForData).style("stroke", function(d, i) {
+      return colorForData(d, i).darker();
     });
     return marbles.select("text").text(function(d) {
-      return d.displayValue;
+      return d.displayText;
     });
+  };
+
+  trimEventData = function(_arg) {
+    var ageLimit, event, eventData, now, timeRange, trimmedEventData, _i, _len;
+    timeRange = _arg.timeRange, now = _arg.now, eventData = _arg.eventData;
+    ageLimit = now - timeRange;
+    trimmedEventData = [];
+    for (_i = 0, _len = eventData.length; _i < _len; _i++) {
+      event = eventData[_i];
+      if (event.timestamp > ageLimit) {
+        trimmedEventData.push(event);
+      }
+    }
+    return trimmedEventData;
   };
 
   BaconViz.createMarbleChartWithin = function(rootSvgNode, containerWidth) {
     var addNewMarble, currValueMarble, eventData, height, marbleGroup, now, root, tick, timeRange, updateInterval, width, x, _ref;
     updateInterval = 50;
-    timeRange = 1000 * 10;
+    timeRange = TIME_RANGE_MS;
     now = new Date();
     root = d3.select(rootSvgNode);
     root.attr("width", containerWidth - (MARBLE_RADIUS * 2));
@@ -76,6 +109,11 @@
       var latestEvent;
       now = new Date();
       x.domain([now - timeRange, now]);
+      eventData = trimEventData({
+        eventData: eventData,
+        timeRange: timeRange,
+        now: now
+      });
       refreshMarbles({
         marbleGroup: marbleGroup,
         eventData: eventData,
@@ -90,17 +128,18 @@
     };
     tick();
     addNewMarble = function(baconEvent) {
-      var displayValue, event;
-      displayValue = (function() {
-        try {
-          return JSON.stringify(baconEvent.value());
-        } catch (_error) {
-          return null;
-        }
-      })();
+      var displayColor, displayText, event;
+      if (isColorString(baconEvent.value())) {
+        displayText = void 0;
+        displayColor = baconEvent.value();
+      } else {
+        displayColor = void 0;
+        displayText = inspect(baconEvent.value());
+      }
       event = {
         backingEvent: baconEvent,
-        displayValue: displayValue,
+        displayText: displayText,
+        displayColor: displayColor,
         timestamp: new Date()
       };
       return eventData.push(event);
