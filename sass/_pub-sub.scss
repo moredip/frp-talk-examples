@@ -1,3 +1,22 @@
+.explain {
+  padding: 0 $left-gutter;
+  h1 {
+    font-size: 28pt;
+  }
+  p {
+    font-size: 20pt;
+  }
+  p.source {
+    font-size: 14pt;
+  }
+}
+
+.pub-explain p {
+  margin-top: 4em;
+  font-size: 16pt;
+  text-align: center;
+}
+
 %button {
   @extend %appearance-none;
 

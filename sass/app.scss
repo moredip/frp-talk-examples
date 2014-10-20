@@ -4,10 +4,7 @@
 @import "bacon-viz";
 
 $streamyBlue: rgb(227,236,253);
-
-html {
-  font-size: 62.5%
-}
+$left-gutter: 20px;
 
 @import "mixins";
 
