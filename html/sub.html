@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="app.css">
+
+    <script src="pubnub.min.js"></script> 
+    <script src="jquery.js"></script> 
+    <script src="Bacon.js"></script> 
+    <script src="d3.js"></script> 
+    <script src="bacon-viz.js"></script> 
+    <script src="tinycolor.js"></script> 
+
+    <script src="pubnub.js"></script> 
+    <script src="sub.js"></script> 
+  </head>
+  <body>
+    <header>
+      <h1>
+        <a href="index.html"> &lt; </a>
+        Color Fun
+      </h1>
+    </header>
+    <main>
+      <section class='explain'>
+        <h1>Send me colors!</h1>
+        <p>
+          Send me colors remotely by opening <a target="frp-pub" href="http://bit.ly/frp-colors">http://bit.ly/frp-colors</a> in a browser on your computer or mobile device.
+        </p>
+        <p class="source">the source code for this magic is <a target="_blank" href="https://github.com/moredip/frp-talk-examples/blob/master/js/sub.js">here</a> and <a target="_blank" href="https://github.com/moredip/frp-talk-examples/blob/master/js/pub.js">here</a></p>
+      </section>
+
+      <article class="stream-visualizations">
+        <!--<h1>stream visualizations</h1>-->
+        <section class="streams">
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
+

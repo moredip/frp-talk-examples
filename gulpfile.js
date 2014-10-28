@@ -34,7 +34,9 @@ gulp.task('copy', function () {
     'node_modules/bacon/lib/bacon.js',
     'node_modules/d3/d3.js',
     'node_modules/jquery/dist/jquery.js',
+    'node_modules/tinycolor2/tinycolor.js',
     'vendor/Bacon.js',
+    'vendor/pubnub.min.js',
     'vendor/bacon-viz.js'
   ];
   gulp.src(inputs)

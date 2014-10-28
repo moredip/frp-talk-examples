@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="app.css">
+
+    <script src="pubnub.min.js"></script> 
+    <script src="jquery.js"></script> 
+    <script src="Bacon.js"></script> 
+    <script src="d3.js"></script> 
+    <script src="bacon-viz.js"></script> 
+    <script src="tinycolor.js"></script> 
+
+    <script src="pubnub.js"></script> 
+    <script src="pub.js"></script> 
+  </head>
+  <body>
+    <main>
+      <section class="buttons">
+        <button id="send-color">send color</button>
+        <button id="change-color">different color</button>
+      </section>
+      <section class="pub-explain">
+        <p>
+          You're sending colors to <a target="frp-sub" href="sub.html">here</a>.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
+
