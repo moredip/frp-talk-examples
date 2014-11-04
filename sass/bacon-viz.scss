@@ -1,0 +1,22 @@
+@import 'marble-stream-colors';
+
+svg {
+  font-family: sans-serif;
+}
+
+article.streams {
+  background: #eee;
+  padding: 20px 0;
+}
+
+.marble-stream {
+  padding: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+.marble-stream h2 {
+  margin: 0 0 -15px 0;
+  color: #444;
+  font-style: italic;
+}

@@ -1,5 +1,5 @@
 (function() {
-  var BaconViz, MARBLE_RADIUS, RGB_REGEX, TIME_RANGE_MS, colorForData, colorScale, createCurrValueMarbleWithin, inspect, isColorString, prepRootNode, refreshCurrValueMarble, refreshMarbles, trimEventData;
+  var BaconViz, MARBLE_RADIUS, RGB_REGEX, TIME_RANGE_MS, createCurrValueMarbleWithin, inspect, isColorString, prepRootNode, refreshCurrValueMarble, refreshMarbles, trimEventData;
 
   BaconViz = this.BaconViz != null ? this.BaconViz : this.BaconViz = {};
 
@@ -50,12 +50,6 @@
     return currValueMarble.style("visibility", "visible").select("text").text(latestEvent.displayText);
   };
 
-  colorScale = d3.scale.category10();
-
-  colorForData = function(d, i) {
-    return d3.rgb(d.displayColor ? d.displayColor : colorScale(i));
-  };
-
   refreshMarbles = function(_arg) {
     var eventData, fadeScale, height, marbleGroup, marbles, newMarble, x, yCenter;
     marbleGroup = _arg.marbleGroup, eventData = _arg.eventData, x = _arg.x, height = _arg.height;
@@ -70,9 +64,6 @@
       return "translate(" + (x(d.timestamp)) + "," + yCenter + ")";
     }).attr("opacity", function(d) {
       return fadeScale(d.timestamp);
-    });
-    marbles.select("circle").style("fill", colorForData).style("stroke", function(d, i) {
-      return colorForData(d, i).darker();
     });
     return marbles.select("text").text(function(d) {
       return d.displayText;
