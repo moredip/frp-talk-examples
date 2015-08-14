@@ -4,7 +4,9 @@ var Bacon = require('baconjs').Bacon,
     querystring = require('querystring'),
     JSONStream = require('JSONStream');
    
-searchForArtist(process.argv[2] || "Aphex Twin")
+var artistName = process.argv[2] || "Aphex Twin";
+
+searchForArtist(artistName)
   .take(1)
   .flatMap(artistsRelatedTo)
   .map(".toUpperCase")
@@ -14,6 +16,7 @@ searchForArtist(process.argv[2] || "Aphex Twin")
 function searchForArtist(artistName){
   var artistsStream = request.get(urlForArtistSearch(artistName))
       .pipe(JSONStream.parse("artists.items"));
+
   return Cuddles.nodeToBacon(artistsStream)
     .flatMap(Bacon.fromArray)
     .map(".id");
@@ -21,7 +24,6 @@ function searchForArtist(artistName){
 
 function artistsRelatedTo(artist){
   var artistsStream = 
-    //require('fs').createReadStream('/Users/phodgson/tmp/related-artists.json')
     request.get(urlForArtistsRelatedTo(artist))
       .pipe(JSONStream.parse("artists.*"));
 
