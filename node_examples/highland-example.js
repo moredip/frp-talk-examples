@@ -6,7 +6,7 @@ var highland = require('highland'),
     JSONStream = require('JSONStream');
 
 var server = http.createServer( function(req,res) {
-  var artistName = unescape( parseUrl(req.url).pathname.split("/")[1] );
+  var artistName = pluckArtistNameFromUrl(req.url);
 
   if( artistName.length === 0 ){
     artistName = "Taylor Swift";
@@ -46,6 +46,10 @@ function searchForArtist(artistName){
   return highland(artistsStream)
     .flatMap(highland)
     .pluck("id");
+}
+
+function pluckArtistNameFromUrl(url){
+  return unescape( parseUrl(url).pathname.split("/")[1] );
 }
 
 function formatArtistNameAsHtml(artistName){
